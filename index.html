@@ -197,9 +197,7 @@ app.controller('mainCtrl', function ($scope, $sce, $q) {
 <pre><code lang="js">
 var fuzzySearch = new Fuse(states, {
   shouldSort: true,
-  includeScore: true,
   caseSensitive: false,
-  id: false,
   threshold: 0.4,
 });
 
@@ -211,20 +209,10 @@ function fuzzy_suggest(term) {
     .search(term)
     .slice(0, 10)
     .map(function (i) {
-      var val = states[i.item];
+      var val = states[i];
       return {
         value: val,
-        label: $sce.trustAsHtml(
-          '&lt;div class="container-fluid"&gt;' +
-          '  &lt;div class="pull-left"&gt;' +
-               highlight(val, term) +
-          '  &lt;/div&gt;' +
-          '  &lt;div class="pull-right"&gt; ' +
-          '   &lt;span class="badge"&gt;' +
-                (Math.round(i.score * 100) / 100) +
-          '   &lt;/span&gt;' +
-          ' &lt;/div&gt;' +
-          '&lt;/div&gt;')
+        label: $sce.trustAsHtml(highlight(val, term))
       };
     });
 }
@@ -583,7 +571,7 @@ $scope.ac_options_users = {
       </tr>
       <tr>
         <th> auto_select_first (false) </th>
-        <td> Auto select the first option in the suggetion box. </td>
+        <td> Auto select the first option in the suggestion box. </td>
       </tr>
     </table>
 

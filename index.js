@@ -122,9 +122,7 @@ app.controller('mainCtrl', function ($scope, $sce, $q, $timeout) {
   // Fuse - linking ranking and searching
   var fuzzySearch = new Fuse(states, {
     shouldSort: true,
-    includeScore: true,
     caseSensitive: false,
-    id: false,
     threshold : 0.4,
   });
 
@@ -136,14 +134,10 @@ app.controller('mainCtrl', function ($scope, $sce, $q, $timeout) {
       .search(term)
       .slice(0, 10)
       .map(function (i) {
-        var val = states[i.item];
+        var val = states[i];
         return {
           value: val,
-          label: $sce.trustAsHtml(
-            '<div class="container-fluid">' +
-            ' <div class="pull-left">' + highlight(val, term) + '</div>' +
-            ' <div class="pull-right"><span class="badge">' + (Math.round(i.score * 100) / 100) + '</span></div>' +
-            '</div>')
+          label: $sce.trustAsHtml(highlight(val, term))
         };
       });
   }
